@@ -1,0 +1,1 @@
+/usr/bin/g++ CMakeFiles/maincraft.dir/main.cpp.o -o maincraft 
