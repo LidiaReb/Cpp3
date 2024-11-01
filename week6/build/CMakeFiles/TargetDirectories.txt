@@ -1,0 +1,4 @@
+/home/rebriylidia/Cpp3/week6/build/CMakeFiles/grid.dir
+/home/rebriylidia/Cpp3/week6/build/CMakeFiles/main.dir
+/home/rebriylidia/Cpp3/week6/build/CMakeFiles/edit_cache.dir
+/home/rebriylidia/Cpp3/week6/build/CMakeFiles/rebuild_cache.dir
