@@ -24,7 +24,7 @@ public:
         data(reinterpret_cast<T*>( operator new(sizeof(T) * y_size * x_size) )), 
         y_size(y_size), x_size(x_size) {
             for (size_type idx = 0u; idx <  y_size*x_size; ++idx) {
-                new ((char*)data + idx * sizeof(T)) T(t);
+                new (data + idx) T(t);
             }     
     }
 
@@ -57,13 +57,20 @@ public:
     }
 
     //оператор присваивания перемещением
-    Grid<T>& operator=(Grid<T> &&src) {  
-        for (std::size_t idx = 0u; idx != y_size*x_size; ++idx) {
-            data[idx] = src[idx];
-        } 
+    Grid<T>& operator=(Grid<T>&& src) {
+        if (this == &src) {
+            return *this;
+        }
+        delete[] data;
+        if (x_size != src.x_size || y_size != src.y_size) {
+            data = new T[src.x_size * src.y_size];
+            x_size = src.x_size;
+            y_size = src.y_size;
+        }
+        std::memcpy(data, src.data, x_size * y_size * sizeof(T));
         src.data = nullptr;
+        src.x_size = 0;
         src.y_size = 0;
-        src.x_size = 0; 
         return *this;
     }
 

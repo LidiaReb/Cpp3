@@ -91,8 +91,11 @@ public:
     //метод возвращает размер сетки по последнему направлению
     size_type get_dim_size(std::size_t dim_num) const;
 
-    //оператор индексирования
+    //оператор индексирования константный
     T& operator[] (size_type idx) const ;
+
+    //оператор индексирования не константный
+    T& operator[] (size_type idx);
 
     //другой оператор индексирования 
     T operator()(size_type idx) const ;
@@ -210,7 +213,7 @@ Grid<T, dim>& Grid<T, dim>::operator=(Grid<T, dim> const &src) {
     if (std::addressof(src) == this) return *this;
     Grid<T, dim> tmp(src); 
     std::swap(buffer, tmp.buffer);
-    buffer_size = tmp.buffer_size;
+    std::swap(buffer_size, tmp.buffer_size);
     return *this;
 }
 
@@ -301,6 +304,12 @@ typename Grid<T, 1>::size_type Grid<T, 1>::get_dim_size(std::size_t dim_num) con
 template <typename T, std::size_t dim>
 Grid<T, dim - 1>& Grid<T, dim>::operator[](size_type idx) const { 
     //оператор индексирования
+    return  buffer[idx]; 
+}
+
+template <typename T>
+T& Grid<T, 1>::operator[] (size_type idx) const {
+    //оператор индексирования
 
     if (buffer == nullptr) {
         std::cout << "Empty grid\n";
@@ -310,12 +319,12 @@ Grid<T, dim - 1>& Grid<T, dim>::operator[](size_type idx) const {
         std::cout << "Invalid index\n";
         exit(1);
     }
-    return  buffer[idx]; 
+    return buffer[idx];
 }
 
 template <typename T>
-T& Grid<T, 1>::operator[] (size_type idx) const {
-    //оператор индексирования
+T& Grid<T, 1>::operator[] (size_type idx) {
+    // оператор индексирования не константный
 
     if (buffer == nullptr) {
         std::cout << "Empty grid\n";
